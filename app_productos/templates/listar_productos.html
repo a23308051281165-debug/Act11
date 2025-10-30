@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block titulo %}Productos | Pastelería{% endblock %}
+
+{% block contenido %}
+<div class="page-header">
+    <h2>Productos Disponibles</h2>
+    <a href="{% url 'app_productos:crear_producto' %}" class="btn btn-primary">+ Agregar Producto</a>
+</div>
+
+<ul class="artist-grid">
+    {% for producto in productos %}
+    <li class="artist-card">
+        <a href="{% url 'app_productos:detalle_producto' producto.ID_producto %}">
+            {% if producto.fotografia %}
+                <img src="{{ producto.fotografia.url }}" alt="Foto de {{ producto.nombre }}" class="artist-img">
+            {% else %}
+                <div class="artist-placeholder">🍰</div>
+            {% endif %}
+            <h3>{{ producto.nombre }}</h3>
+            <p class="artist-nationality">Categoría: {{ producto.categoria }}</p>
+            <p class="artist-nationality">Precio: ${{ producto.precio }}</p>
+        </a>
+    </li>
+    {% empty %}
+    <li class="no-artists">No hay productos registrados.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

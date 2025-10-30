@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ producto.nombre }} | Pastelería{% endblock %}
+
+{% block contenido %}
+<article class="artist-detail">
+    <div class="artist-banner">
+        {% if producto.fotografia %}
+            <img src="{{ producto.fotografia.url }}" alt="Foto de {{ producto.nombre }}" class="detail-photo">
+        {% else %}
+            <div class="detail-placeholder">🍮</div>
+        {% endif %}
+        <div class="artist-info">
+            <h1>{{ producto.nombre }}</h1>
+            <h3>Categoría: {{ producto.categoria }}</h3>
+            <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+            <p><strong>Stock:</strong> {{ producto.stock }} {{ producto.unidad_medida }}</p>
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <a href="{% url 'app_productos:editar_producto' producto.ID_producto %}" class="btn btn-secondary">✏️ Editar</a>
+        <a href="{% url 'app_productos:borrar_producto' producto.ID_producto %}" class="btn btn-danger">🗑️ Borrar</a>
+    </div>
+
+    <section class="songs-section">
+        <h2>Proveedores</h2>
+        {% if producto.proveedores.all %}
+        <ul class="song-list">
+            {% for proveedor in producto.proveedores.all %}
+            <li>{{ proveedor.nombre }} — {{ proveedor.telefono }} — {{ proveedor.correo }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-message">Este producto no tiene proveedores registrados.</p>
+        {% endif %}
+    </section>
+</article>
+{% endblock %}
